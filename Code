@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lava Lamp Encryptor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e1b4b, #312e81, #3730a3);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(17, 24, 39, 0.8);
+            border-radius: 12px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #93c5fd;
+            font-size: 1.1rem;
+        }
+
+        .alert {
+            background: rgba(30, 58, 138, 0.3);
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .alert-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .alert-icon {
+            color: #60a5fa;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .card {
+            background: rgba(31, 41, 55, 0.9);
+            border: 1px solid #4b5563;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .card-header {
+            padding: 20px 20px 0 20px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            color: #d1d5db;
+            font-size: 0.9rem;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .tabs {
+            margin-bottom: 24px;
+        }
+
+        .tabs-list {
+            display: flex;
+            background: rgba(31, 41, 55, 0.9);
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+
+        .tab-trigger {
+            flex: 1;
+            padding: 12px 16px;
+            background: transparent;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .tab-trigger.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: white;
+        }
+
+        .input, .textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(31, 41, 55, 0.8);
+            border: 1px solid #4b5563;
+            border-radius: 6px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .input:focus, .textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        .textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .button-primary {
+            background: #16a34a;
+            color: white;
+        }
+
+        .button-primary:hover:not(:disabled) {
+            background: #15803d;
+        }
+
+        .button-secondary {
+            background: #dc2626;
+            color: white;
+        }
+
+        .button-secondary:hover:not(:disabled) {
+            background: #b91c1c;
+        }
+
+        .grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .grid-2 {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 16px;
+            }
+        }
+
+        .success-text {
+            color: #10b981;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mono {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+        }
+
+        .text-green { color: #10b981; }
+        .text-blue { color: #3b82f6; }
+        .text-red { color: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🌋 Lava Lamp Encryptor</h1>
+            <p class="subtitle">Science Fair Encryption Demo using Lava Lamp Entropy</p>
+        </div>
+
+        <div class="alert">
+            <div class="alert-content">
+                <span class="alert-icon">⚠️</span>
+                <div>
+                    <strong>Demo Notice:</strong> This demo uses lava lamp images or videos to generate cryptographic keys for AES-256-CBC encryption. 
+                    Upload an image or video of a lava lamp to create entropy for secure encryption!
+                </div>
+            </div>
+        </div>
+
+        <!-- Entropy Upload Section -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    🔑 Entropy Source (Lava Lamp Media)
+                </div>
+                <div class="card-description">
+                    Upload a lava lamp image or video to generate your encryption key.
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="form-group">
+                    <label class="label" for="entropy-media">Select Lava Lamp Image or Video</label>
+                    <input id="entropy-media" type="file" accept="image/*,video/*" class="input">
+                    <div id="entropy-status" class="success-text" style="display: none; margin-top: 8px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tabs-list">
+                <button class="tab-trigger active" data-tab="text">
+                    📝 Text Encryption
+                </button>
+                <button class="tab-trigger" data-tab="file">
+                    📁 File Encryption
+                </button>
+            </div>
+
+            <!-- Text Encryption Tab -->
+            <div id="text-tab" class="tab-content active">
+                <div class="grid grid-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">🔒 Encrypt Text</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="form-group">
+                                <label class="label" for="message">Message to Encrypt</label>
+                                <textarea id="message" class="textarea" placeholder="Enter your secret message here..." rows="4"></textarea>
+                            </div>
+                            <button id="encrypt-btn" class="button button-primary" style="width: 100%;">
+                                Encrypt Message
+                            </button>
+                            <div id="encrypted-output" style="display: none; margin-top: 16px;">
+                                <label class="label">Encrypted (Hex)</label>
+                                <textarea id="encrypted-text" class="textarea mono text-green" readonly rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">🔓 Decrypt Text</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="form-group">
+                                <label class="label" for="encrypted-input">Encrypted Text (Hex)</label>
+                                <textarea id="encrypted-input" class="textarea mono" placeholder="Paste encrypted hex data here..." rows="4"></textarea>
+                            </div>
+                            <button id="decrypt-btn" class="button button-secondary" style="width: 100%;">
+                                Decrypt Message
+                            </button>
+                            <div id="decrypted-output" style="display: none; margin-top: 16px;">
+                                <label class="label">Decrypted Message</label>
+                                <textarea id="decrypted-text" class="textarea text-blue" readonly rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Encryption Tab -->
+            <div id="file-tab" class="tab-content">
+                <div class="grid grid-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">🔒 Encrypt File</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="form-group">
+                                <label class="label" for="file-encrypt">Select File to Encrypt</label>
+                                <input id="file-encrypt" type="file" class="input">
+                            </div>
+                            <button id="encrypt-file-btn" class="button button-primary" style="width: 100%;">
+                                📥 Encrypt & Download
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">🔓 Decrypt File</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="form-group">
+                                <label class="label" for="file-decrypt">Select Encrypted File</label>
+                                <input id="file-decrypt" type="file" class="input">
+                            </div>
+                            <button id="decrypt-file-btn" class="button button-secondary" style="width: 100%;">
+                                📥 Decrypt & Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let entropyMedia = null;
+        let isVideoEntropy = false;
+
+        // Crypto utilities
+        class LavaLampCrypto {
+            static async generateKeyFromMediaBuffer(mediaBuffer, isVideo) {
+                const hash = await crypto.subtle.digest('SHA-256', mediaBuffer);
+                return await crypto.subtle.importKey(
+                    'raw',
+                    hash,
+                    { name: 'AES-CBC' },
+                    false,
+                    ['encrypt', 'decrypt']
+                );
+            }
+
+            static async encryptText(text, key) {
+                const iv = crypto.getRandomValues(new Uint8Array(16));
+                const encoded = new TextEncoder().encode(text);
+                const encrypted = await crypto.subtle.encrypt(
+                    { name: 'AES-CBC', iv: iv },
+                    key,
+                    encoded
+                );
+                return { encrypted, iv };
+            }
+
+            static async decryptText(encrypted, iv, key) {
+                const decrypted = await crypto.subtle.decrypt(
+                    { name: 'AES-CBC', iv: iv },
+                    key,
+                    encrypted
+                );
+                return new TextDecoder().decode(decrypted);
+            }
+
+            static async encryptFile(fileBuffer, key) {
+                const iv = crypto.getRandomValues(new Uint8Array(16));
+                const encrypted = await crypto.subtle.encrypt(
+                    { name: 'AES-CBC', iv: iv },
+                    key,
+                    fileBuffer
+                );
+                return { encrypted, iv };
+            }
+
+            static async decryptFile(encrypted, iv, key) {
+                return await crypto.subtle.decrypt(
+                    { name: 'AES-CBC', iv: iv },
+                    key,
+                    encrypted
+                );
+            }
+
+            static arrayBufferToHex(buffer) {
+                return Array.from(new Uint8Array(buffer))
+                    .map(b => b.toString(16).padStart(2, '0'))
+                    .join('');
+            }
+
+            static hexToArrayBuffer(hex) {
+                const bytes = new Uint8Array(hex.length / 2);
+                for (let i = 0; i < hex.length; i += 2) {
+                    bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
+                }
+                return bytes.buffer;
+            }
+
+            static downloadBlob(blob, filename) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        // Tab functionality
+        document.querySelectorAll('.tab-trigger').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const tab = trigger.dataset.tab;
+                
+                // Update active states
+                document.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                trigger.classList.add('active');
+                document.getElementById(tab + '-tab').classList.add('active');
+            });
+        });
+
+        // Entropy media upload
+        document.getElementById('entropy-media').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const isVideo = file.type.startsWith('video/');
+            const isImage = file.type.startsWith('image/');
+            
+            if (!isVideo && !isImage) {
+                alert('Please upload a valid image or video file.');
+                return;
+            }
+
+            entropyMedia = file;
+            isVideoEntropy = isVideo;
+            
+            const status = document.getElementById('entropy-status');
+            status.style.display = 'block';
+            status.innerHTML = `✓ Entropy source loaded: ${file.name} (${isVideo ? 'Video' : 'Image'})`;
+        });
+
+        // Text encryption
+        document.getElementById('encrypt-btn').addEventListener('click', async () => {
+            const message = document.getElementById('message').value;
+            
+            if (!entropyMedia || !message) {
+                alert('Please upload an entropy source and enter text to encrypt.');
+                return;
+            }
+
+            try {
+                const mediaBuffer = await entropyMedia.arrayBuffer();
+                const key = await LavaLampCrypto.generateKeyFromMediaBuffer(mediaBuffer, isVideoEntropy);
+                const { encrypted, iv } = await LavaLampCrypto.encryptText(message, key);
+                
+                const combined = new Uint8Array(iv.byteLength + encrypted.byteLength);
+                combined.set(new Uint8Array(iv), 0);
+                combined.set(new Uint8Array(encrypted), iv.byteLength);
+                
+                const hexResult = LavaLampCrypto.arrayBufferToHex(combined.buffer);
+                
+                document.getElementById('encrypted-text').value = hexResult;
+                document.getElementById('encrypted-output').style.display = 'block';
+                document.getElementById('encrypted-input').value = hexResult;
+                
+                alert('Text encrypted successfully!');
+            } catch (error) {
+                alert('Encryption failed: ' + error.message);
+            }
+        });
+
+        // Text decryption
+        document.getElementById('decrypt-btn').addEventListener('click', async () => {
+            const encryptedHex = document.getElementById('encrypted-input').value;
+            
+            if (!entropyMedia || !encryptedHex) {
+                alert('Please upload the same entropy source and provide encrypted text.');
+                return;
+            }
+
+            try {
+                const mediaBuffer = await entropyMedia.arrayBuffer();
+                const key = await LavaLampCrypto.generateKeyFromMediaBuffer(mediaBuffer, isVideoEntropy);
+                
+                const combined = LavaLampCrypto.hexToArrayBuffer(encryptedHex);
+                const iv = combined.slice(0, 16);
+                const encrypted = combined.slice(16);
+                
+                const decrypted = await LavaLampCrypto.decryptText(encrypted, iv, key);
+                
+                document.getElementById('decrypted-text').value = decrypted;
+                document.getElementById('decrypted-output').style.display = 'block';
+                
+                alert('Text decrypted successfully!');
+            } catch (error) {
+                alert('Decryption failed. Make sure you\'re using the same entropy source.');
+            }
+        });
+
+        // File encryption
+        document.getElementById('encrypt-file-btn').addEventListener('click', async () => {
+            const fileInput = document.getElementById('file-encrypt');
+            const file = fileInput.files[0];
+            
+            if (!entropyMedia || !file) {
+                alert('Please upload an entropy source and select a file to encrypt.');
+                return;
+            }
+
+            try {
+                const mediaBuffer = await entropyMedia.arrayBuffer();
+                const fileBuffer = await file.arrayBuffer();
+                const key = await LavaLampCrypto.generateKeyFromMediaBuffer(mediaBuffer, isVideoEntropy);
+                const { encrypted, iv } = await LavaLampCrypto.encryptFile(fileBuffer, key);
+                
+                const combined = new Uint8Array(iv.byteLength + encrypted.byteLength);
+                combined.set(new Uint8Array(iv), 0);
+                combined.set(new Uint8Array(encrypted), iv.byteLength);
+                
+                const blob = new Blob([combined], { type: 'application/octet-stream' });
+                LavaLampCrypto.downloadBlob(blob, file.name + '.encrypted');
+                
+                alert('File encrypted and downloaded successfully!');
+            } catch (error) {
+                alert('File encryption failed: ' + error.message);
+            }
+        });
+
+        // File decryption
+        document.getElementById('decrypt-file-btn').addEventListener('click', async () => {
+            const fileInput = document.getElementById('file-decrypt');
+            const file = fileInput.files[0];
+            
+            if (!entropyMedia || !file) {
+                alert('Please upload the same entropy source and select the encrypted file.');
+                return;
+            }
+
+            try {
+                const mediaBuffer = await entropyMedia.arrayBuffer();
+                const fileBuffer = await file.arrayBuffer();
+                const key = await LavaLampCrypto.generateKeyFromMediaBuffer(mediaBuffer, isVideoEntropy);
+                
+                const iv = fileBuffer.slice(0, 16);
+                const encrypted = fileBuffer.slice(16);
+                
+                const decrypted = await LavaLampCrypto.decryptFile(encrypted, iv, key);
+                
+                const originalName = file.name.replace('.encrypted', '');
+                const blob = new Blob([decrypted]);
+                LavaLampCrypto.downloadBlob(blob, originalName);
+                
+                alert('File decrypted and downloaded successfully!');
+            } catch (error) {
+                alert('File decryption failed. Make sure you\'re using the same entropy source.');
+            }
+        });
+    </script>
+</body>
+</html>
